@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import React from 'react';
 
 import { createServiceInstanceKey } from '../../../../../../utils/service_instance';
+import { isLocalBuiltinService } from '../../../../../../utils/local_services';
 import * as builtinServices from '../../../../../../services/tts';
 
 export default function SelectModal(props) {
@@ -20,29 +21,32 @@ export default function SelectModal(props) {
                     <>
                         <ModalHeader>{t('config.service.add_service')}</ModalHeader>
                         <ModalBody>
-                            {Object.keys(builtinServices).map((x) => {
-                                return (
-                                    <div key={x}>
-                                        <Button
-                                            fullWidth
-                                            onPress={() => {
-                                                setCurrentConfigKey(createServiceInstanceKey(x));
-                                                onConfigOpen();
-                                            }}
-                                            startContent={
-                                                <img
-                                                    src={builtinServices[x].info.icon}
-                                                    className='h-[24px] w-[24px] my-auto'
-                                                />
-                                            }
-                                        >
-                                            <div className='w-full'>
-                                                {t(`services.tts.${builtinServices[x].info.name}.title`)}
-                                            </div>
-                                        </Button>
-                                    </div>
-                                );
-                            })}
+                            {Object.keys(builtinServices)
+                                .filter((serviceName) => isLocalBuiltinService(serviceName, 'tts'))
+                                .map((x) => {
+                                    return (
+                                        <div key={x}>
+                                            <Button
+                                                fullWidth
+                                                onPress={() => {
+                                                    setCurrentConfigKey(createServiceInstanceKey(x));
+                                                    onConfigOpen();
+                                                }}
+                                                startContent={
+                                                    <img
+                                                        src={builtinServices[x].info.icon}
+                                                        className='h-[24px] w-[24px] my-auto'
+                                                    />
+                                                }
+                                            >
+                                                <div className='w-full'>
+                                                    {builtinServices[x].info.displayName ??
+                                                        t(`services.tts.${builtinServices[x].info.name}.title`)}
+                                                </div>
+                                            </Button>
+                                        </div>
+                                    );
+                                })}
                         </ModalBody>
                         <ModalFooter>
                             <Button

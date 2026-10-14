@@ -69,15 +69,10 @@ export default function Translate() {
     const [windowPosition] = useConfig('translate_window_position', 'mouse');
     const [rememberWindowSize] = useConfig('translate_remember_window_size', false);
     const [translateServiceInstanceList, setTranslateServiceInstanceList] = useConfig('translate_service_list', [
-        'deepl',
-        'bing',
-        'lingva',
-        'yandex',
-        'google',
-        'ecdict',
+        'openai',
     ]);
-    const [recognizeServiceInstanceList] = useConfig('recognize_service_list', ['system', 'tesseract']);
-    const [ttsServiceInstanceList] = useConfig('tts_service_list', ['lingva_tts']);
+    const [recognizeServiceInstanceList] = useConfig('recognize_service_list', ['system']);
+    const [ttsServiceInstanceList] = useConfig('tts_service_list', ['openai_tts']);
     const [collectionServiceInstanceList] = useConfig('collection_service_list', []);
     const [hideLanguage] = useConfig('hide_language', false);
     const [pined, setPined] = useState(false);

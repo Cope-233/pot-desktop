@@ -1,6 +1,7 @@
 export const info = {
     name: 'openai',
     icon: 'logo/openai.svg',
+    displayName: 'OpenAI / llama.cpp',
 };
 
 export enum Language {

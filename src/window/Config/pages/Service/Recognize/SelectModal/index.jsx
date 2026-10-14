@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import React from 'react';
 
 import { createServiceInstanceKey } from '../../../../../../utils/service_instance';
+import { isLocalBuiltinService } from '../../../../../../utils/local_services';
 import * as builtinServices from '../../../../../../services/recognize';
 import { osType } from '../../../../../../utils/env';
 
@@ -21,33 +22,36 @@ export default function SelectModal(props) {
                     <>
                         <ModalHeader>{t('config.service.add_service')}</ModalHeader>
                         <ModalBody>
-                            {Object.keys(builtinServices).map((x) => {
-                                return (
-                                    <div key={x}>
-                                        <Button
-                                            fullWidth
-                                            onPress={() => {
-                                                setCurrentConfigKey(createServiceInstanceKey(x));
-                                                onConfigOpen();
-                                            }}
-                                            startContent={
-                                                <img
-                                                    src={
-                                                        x === 'system'
-                                                            ? `logo/${osType}.svg`
-                                                            : builtinServices[x].info.icon
-                                                    }
-                                                    className='h-[24px] w-[24px] my-auto'
-                                                />
-                                            }
-                                        >
-                                            <div className='w-full'>
-                                                {t(`services.recognize.${builtinServices[x].info.name}.title`)}
-                                            </div>
-                                        </Button>
-                                    </div>
-                                );
-                            })}
+                            {Object.keys(builtinServices)
+                                .filter((serviceName) => isLocalBuiltinService(serviceName, 'recognize'))
+                                .map((x) => {
+                                    return (
+                                        <div key={x}>
+                                            <Button
+                                                fullWidth
+                                                onPress={() => {
+                                                    setCurrentConfigKey(createServiceInstanceKey(x));
+                                                    onConfigOpen();
+                                                }}
+                                                startContent={
+                                                    <img
+                                                        src={
+                                                            x === 'system'
+                                                                ? `logo/${osType}.svg`
+                                                                : builtinServices[x].info.icon
+                                                        }
+                                                        className='h-[24px] w-[24px] my-auto'
+                                                    />
+                                                }
+                                            >
+                                                <div className='w-full'>
+                                                    {builtinServices[x].info.displayName ??
+                                                        t(`services.recognize.${builtinServices[x].info.name}.title`)}
+                                                </div>
+                                            </Button>
+                                        </div>
+                                    );
+                                })}
                         </ModalBody>
                         <ModalFooter>
                             <Button

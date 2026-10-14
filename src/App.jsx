@@ -13,6 +13,11 @@ import Updater from './window/Updater';
 import { store } from './utils/store';
 import Config from './window/Config';
 import { useConfig } from './hooks';
+import {
+    LOCAL_SERVICE_DEFAULTS,
+    sanitizeLocalServiceList,
+    serviceListsEqual,
+} from './utils/local_services';
 import './style.css';
 import './i18n';
 
@@ -31,12 +36,48 @@ export default function App() {
     const [appFont] = useConfig('app_font', 'default');
     const [appFallbackFont] = useConfig('app_fallback_font', 'default');
     const [appFontSize] = useConfig('app_font_size', 16);
+    const [translateServiceList, setTranslateServiceList] = useConfig(
+        'translate_service_list',
+        LOCAL_SERVICE_DEFAULTS.translate
+    );
+    const [recognizeServiceList, setRecognizeServiceList] = useConfig(
+        'recognize_service_list',
+        LOCAL_SERVICE_DEFAULTS.recognize
+    );
+    const [ttsServiceList, setTtsServiceList] = useConfig('tts_service_list', LOCAL_SERVICE_DEFAULTS.tts);
     const { setTheme } = useTheme();
     const { i18n } = useTranslation();
 
     useEffect(() => {
         store.load();
     }, []);
+
+    useEffect(() => {
+        if (translateServiceList !== null) {
+            const next = sanitizeLocalServiceList(translateServiceList, 'translate');
+            if (!serviceListsEqual(translateServiceList, next)) {
+                setTranslateServiceList(next);
+            }
+        }
+    }, [translateServiceList]);
+
+    useEffect(() => {
+        if (recognizeServiceList !== null) {
+            const next = sanitizeLocalServiceList(recognizeServiceList, 'recognize');
+            if (!serviceListsEqual(recognizeServiceList, next)) {
+                setRecognizeServiceList(next);
+            }
+        }
+    }, [recognizeServiceList]);
+
+    useEffect(() => {
+        if (ttsServiceList !== null) {
+            const next = sanitizeLocalServiceList(ttsServiceList, 'tts');
+            if (!serviceListsEqual(ttsServiceList, next)) {
+                setTtsServiceList(next);
+            }
+        }
+    }, [ttsServiceList]);
 
     useEffect(() => {
         if (devMode !== null && devMode) {

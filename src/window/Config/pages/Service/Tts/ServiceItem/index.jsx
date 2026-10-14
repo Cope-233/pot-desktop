@@ -18,7 +18,7 @@ export default function ServiceItem(props) {
     const { serviceInstanceKey, pluginList, deleteServiceInstance, setCurrentConfigKey, onConfigOpen, ...drag } = props;
     const { t } = useTranslation();
 
-    const [serviceInstanceConfig, setServiceInstanceConfig] = useConfig(serviceInstanceKey, {});
+    const [serviceInstanceConfig] = useConfig(serviceInstanceKey, {});
 
     const serviceSourceType = getServiceSouceType(serviceInstanceKey);
     const serviceName = getServiceName(serviceInstanceKey);
@@ -47,6 +47,7 @@ export default function ServiceItem(props) {
                             <Spacer x={2} />
                             <h2 className='my-auto'>
                                 {serviceInstanceConfig[INSTANCE_NAME_CONFIG_KEY] ||
+                                    builtinServices[serviceName].info.displayName ||
                                     t(`services.tts.${serviceName}.title`)}
                             </h2>
                         </>

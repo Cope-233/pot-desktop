@@ -12,6 +12,20 @@
 ![MacOS](https://img.shields.io/badge/-macOS-black?&logo=apple&logoColor=white)
 ![Linux](https://img.shields.io/badge/-Linux-yellow?logo=linux&logoColor=white)
 
+## llama.cpp 本地插件
+
+本 fork 重点提供 3 个面向 [llama.cpp](https://github.com/ggml-org/llama.cpp) 的 Pot 插件，可直接下载 `.potext` 安装：
+
+| 插件 | 功能 | 接入方式 |
+| --- | --- | --- |
+| [llama.cpp Translate](plugins/llamacpp/plugin.com.pot-app.llamacpp_translate.potext) | 本地翻译 | llama.cpp OpenAI 兼容 `/v1/chat/completions` |
+| [llama.cpp OCR](plugins/llamacpp/plugin.com.pot-app.llamacpp_ocr.potext) | 本地 OCR | llama.cpp OpenAI 兼容 `/v1/chat/completions` |
+| [llama.cpp TTS](plugins/llamacpp/plugin.com.pot-app.llamacpp_tts.potext) | 本地语音合成 | `llama-tts` + 本地 GGUF |
+
+三个插件覆盖 **翻译、OCR 和 TTS**，用于把 Pot 的语言、视觉和语音能力连接到本地 llama.cpp 工作流。
+
+安装方式：下载对应 `.potext` → Pot「偏好设置」→「服务设置」→「添加外部插件」→「安装外部插件」。
+
 <br/>
 <hr/>
 <div align="center">
